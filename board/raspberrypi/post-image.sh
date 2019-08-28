@@ -102,11 +102,16 @@ ROOTPATH_TMP="$(mktemp -d)"
 
 rm -rf "${GENIMAGE_TMP}"
 
-genimage \
-	--rootpath "${ROOTPATH_TMP}"   \
-	--tmppath "${GENIMAGE_TMP}"    \
-	--inputpath "${BINARIES_DIR}"  \
-	--outputpath "${BINARIES_DIR}" \
-	--config "${GENIMAGE_CFG}"
+if [[ -f "${BINARIES_DIR}/rootfs.ext4" ]]
+then
+ genimage \
+	 --rootpath "${ROOTPATH_TMP}"   \
+	 --tmppath "${GENIMAGE_TMP}"    \
+	 --inputpath "${BINARIES_DIR}"  \
+	 --outputpath "${BINARIES_DIR}" \
+	 --config "${GENIMAGE_CFG}"
+else
+ echo "Not creating sdcard image because ${BINARIES_DIR}/rootfs.ext4 doesn't exist"
+fi
 
 exit $?
