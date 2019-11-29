@@ -4,11 +4,26 @@
 #
 ################################################################################
 
-GST1_VALIDATE_VERSION = 1.16.0
+GST1_VALIDATE_VERSION = 1.16.1
+
+ifeq ($(BR2_PACKAGE_GSTREAMER1_10),y)
+GST1_VALIDATE_VERSION = 1.10.4
+endif
+
+ifeq ($(BR2_PACKAGE_GSTREAMER1_14),y)
+GST1_VALIDATE_VERSION = 1.14.4
+endif
+
+ifeq ($(BR2_PACKAGE_GSTREAMER1_16),y)
+GST1_VALIDATE_VERSION = 1.16.1
+endif
+
 GST1_VALIDATE_SOURCE = gst-validate-$(GST1_VALIDATE_VERSION).tar.xz
 GST1_VALIDATE_SITE = https://gstreamer.freedesktop.org/src/gst-validate
-GST1_VALIDATE_LICENSE = LGPL-2.1+
+GST1_VALIDATE_LICENSE = LGPLv2.1+
 GST1_VALIDATE_LICENSE_FILES = COPYING
+
+GST1_VALIDATE_CONF_OPTS = --disable-sphinx-doc
 
 GST1_VALIDATE_DEPENDENCIES = \
 	gstreamer1 \
@@ -17,7 +32,5 @@ GST1_VALIDATE_DEPENDENCIES = \
 	host-python \
 	python \
 	$(if $(BR2_PACKAGE_CAIRO),cairo)
-
-GST1_VALIDATE_CONF_OPTS += --disable-sphinx-doc
 
 $(eval $(autotools-package))
